@@ -23,6 +23,8 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { FIELD_NAMES, FIELD_TYPES } from '@/constants';
 import ImageUpload from './ImageUpload';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/hooks/use-toast';
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
@@ -37,13 +39,34 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   onSubmit,
 }: Props<T>) => {
+  const router = useRouter();
   const isSignIn = type === 'SIGN-IN';
   // 1. Define your form.
   const form: UseFormReturn<T> = useForm({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
   });
-  const handleSubmit: SubmitHandler<T> = async (data) => {};
+
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+    if (result.success) {
+      toast({
+        title: 'Success',
+        description: isSignIn
+          ? "You've signed in successfully"
+          : "You've signed up successfully",
+      });
+      router.push('/');
+    } else {
+      // show error
+      toast({
+        title: `Error ${isSignIn ? 'signing in' : 'signing up'}`,
+        description: result.error ?? 'An error occurred',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-2xl font-semibold text-white'>
@@ -107,5 +130,4 @@ const AuthForm = <T extends FieldValues>({
     </div>
   );
 };
-
 export default AuthForm;
