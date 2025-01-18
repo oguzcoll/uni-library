@@ -1,5 +1,5 @@
 'use client';
-import { cn, getInıtıals } from '@/lib/utils';
+import { cn, getInitials } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,7 +30,7 @@ const Header = ({ session }: { session: Session }) => {
           <Link href='/my-profile'>
             <Avatar>
               <AvatarFallback className='bg-amber-100'>
-                {getInıtıals(session?.user?.name || 'OC')}
+                {getInitials(session?.user?.name || 'OC')}
               </AvatarFallback>
             </Avatar>
           </Link>
