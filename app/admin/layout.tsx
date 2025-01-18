@@ -14,7 +14,6 @@ const Layout = async ({ children }: { children: ReactNode }) => {
       <Sidebar session={session} />
       <div className='admin-container'>
         <Header session={session} />
-        <p>Header</p>
         {children}
       </div>
     </main>
