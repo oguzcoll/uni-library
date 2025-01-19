@@ -20,6 +20,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     .then((res) => res[0]?.isAdmin === 'ADMIN');
 
   if (!isAdmin) return redirect('/');
+
   return (
     <main className='flex min-h-screen w-full flex-row'>
       <Sidebar session={session} />
