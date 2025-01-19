@@ -1,9 +1,26 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { signOut } from '@/auth';
+import { auth, signOut } from '@/auth';
 import BookList from '@/components/BookList';
+// import { sampleBooks } from '@/constants';
+import { db } from '@/database/drizzle';
+import { books, borrowRecords } from '@/database/schema';
+import { eq } from 'drizzle-orm';
 
-const Page = () => {
+const Page = async () => {
+  const session = await auth();
+
+  // fetch borrowed books from drizzle db with join
+  const borrowedBooks = await db
+    .select()
+    .from(borrowRecords)
+    .innerJoin(books, eq(borrowRecords.bookId, books.id))
+    .where(eq(borrowRecords.userId, session?.user?.id || ''))
+    .limit(10)
+    .execute();
+
+  const booksList = borrowedBooks.map((record) => record.books);
+
   return (
     <>
       <form
@@ -16,8 +33,7 @@ const Page = () => {
       >
         <Button>Logout</Button>
       </form>
-
-      {/* <BookList title='Borrowed Books' books={sampleBooks} /> */}
+      <BookList title='Borrowed Books' books={booksList} />
     </>
   );
 };

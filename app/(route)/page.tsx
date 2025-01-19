@@ -1,7 +1,6 @@
 import { auth } from '@/auth';
 import BookList from '@/components/BookList';
 import BookOverview from '@/components/BookOverview';
-import { sampleBooks } from '@/constants';
 import { db } from '@/database/drizzle';
 import { books, users } from '@/database/schema';
 import { desc } from 'drizzle-orm';

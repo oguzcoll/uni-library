@@ -15,6 +15,13 @@
       "when": 1737304437067,
       "tag": "0001_medical_human_robot",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737315748581,
+      "tag": "0002_loud_wasp",
+      "breakpoints": true
     }
   ]
 }
